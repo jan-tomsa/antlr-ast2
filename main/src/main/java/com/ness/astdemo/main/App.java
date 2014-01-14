@@ -42,7 +42,7 @@ public class App
 		// The AST Magic
 		TreeAdaptor adaptor = new CommonTreeAdaptor() {
 			public Object create(Token payload) {
-				return new CommonTree(payload);
+				return new MyAST(payload);
 			}
 		};
 		// Hooking Things Together
