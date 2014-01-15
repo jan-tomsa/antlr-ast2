@@ -22,7 +22,9 @@ public class App
 
 	public static void main( String[] args )
     {
-	    App app = new App("1+1;\nKeyser Soze;\n\"Hello world\";");
+	    App app = new App("1+2+4;\n"
+			             +"Keyser Soze;\n"
+			             +"\"Hello world\";");
 	    app.execute();
     }
 
@@ -65,7 +67,8 @@ public class App
 			appendNTimes(sb, indent, "  ");
 			if (tree.getChildCount() > 0) {
 				for (int i=0; i < tree.getChildCount(); i++) {
-					System.out.println(sb.toString() + tree.getText());
+					//System.out.println(sb.toString() + tree.getText());
+					System.out.println(sb.toString() + ((MyAST)tree).eval());
 					printTree((CommonTree) tree.getChild(i), indent+1);
 				}
 			} else {
