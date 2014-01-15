@@ -13,8 +13,8 @@ import com.ness.antlrdemo.parser.TTree;
  */
 public class App 
 {
-
 	private String src;
+	private String result;
 
 	public App(String src) {
 		this.src = src;
@@ -25,20 +25,19 @@ public class App
 	    App app = new App("1+2+4;\n"
 			             +"Keyser Soze;\n"
 			             +"\"Hello world\";");
-	    app.execute();
+	    System.out.println(app.execute());
     }
 
-	private void execute() {
+	String execute() {
 		TLexer lexer = new TLexer(new ANTLRStringStream(src));
 		TParser parser = new TParser(new CommonTokenStream(lexer));
 
+		result = "";
 		//walk(parser);
-
-		walkMore(lexer);
-
+		return walkMore(lexer);
 	}
 
-	private void walkMore(TLexer lexer) {
+	private String walkMore(TLexer lexer) {
 		TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		TParser grammar = new TParser(tokens);
 		// The AST Magic
@@ -56,25 +55,30 @@ public class App
 		} catch (RecognitionException e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
+		return result;
 	}
 
 	private void printTree(CommonTree tree, int indent) {
 		if (tree != null) {
 			StringBuilder sb = new StringBuilder(indent);
 			if (tree.getParent() == null) {
-				System.out.println(sb.toString() + tree.getText());
+				println(sb.toString() + tree.getText());
 			}
 			appendNTimes(sb, indent, "  ");
 			if (tree.getChildCount() > 0) {
 				for (int i=0; i < tree.getChildCount(); i++) {
 					//System.out.println(sb.toString() + tree.getText());
-					System.out.println(sb.toString() + ((MyAST)tree).eval());
+					println(sb.toString() + ((MyAST) tree).eval());
 					printTree((CommonTree) tree.getChild(i), indent+1);
 				}
 			} else {
-				System.out.println(sb.toString() + tree.getText());
+				println(sb.toString() + tree.getText());
 			}
 		}
+	}
+
+	private void println(String s) {
+		result += s + "\n";
 	}
 
 	private void appendNTimes(StringBuilder sb, int indent, String filler) {
