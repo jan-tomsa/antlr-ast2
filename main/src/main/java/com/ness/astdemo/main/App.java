@@ -1,11 +1,12 @@
 package com.ness.astdemo.main;
 
 import org.antlr.runtime.*;
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.TreeAdaptor;
 
 import com.ness.antlrdemo.parser.TLexer;
 import com.ness.antlrdemo.parser.TParser;
-import com.ness.antlrdemo.parser.TTree;
 
 /**
  * Hello world!
@@ -33,7 +34,6 @@ public class App
 		TParser parser = new TParser(new CommonTokenStream(lexer));
 
 		result = "";
-		//walk(parser);
 		return walkMore(lexer);
 	}
 
@@ -84,16 +84,5 @@ public class App
 	private void appendNTimes(StringBuilder sb, int indent, String filler) {
 		for (int i=1; i<=indent; i++)
 			sb.append(filler);
-	}
-
-	private void walk(TParser parser) {
-		try {
-			TParser.a_return psrReturn = parser.a();
-			Tree t = (Tree)psrReturn.getTree();
-			TTree walker = new TTree(new CommonTreeNodeStream(t));
-			walker.a();
-		} catch (RecognitionException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
 	}
 }
