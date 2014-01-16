@@ -3,7 +3,10 @@ package com.ness.astdemo.main;
 import static com.ness.antlrdemo.parser.TParser.a_return;
 
 import org.antlr.runtime.*;
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.antlr.runtime.tree.TreeAdaptor;
 
 import com.ness.antlrdemo.parser.TLexer;
 import com.ness.antlrdemo.parser.TParser;
@@ -27,7 +30,7 @@ public class App
 	    App app = new App("1+2+4;\n"
 			             +"Keyser Soze;\n"
 			             +"\"Hello world\";");
-	    System.out.println(app.execute());
+	    System.out.println(app.execute2());
     }
 
 	String execute() {
@@ -40,6 +43,19 @@ public class App
 //		lexer.reset();
 //		println("--- second walk ---");
 //		println(walkEvenMore(lexer));
+		return result;
+	}
+
+	String execute2() {
+		TLexer lexer = new TLexer(new ANTLRStringStream(src));
+		TParser parser = new TParser(new CommonTokenStream(lexer));
+
+		result = "--- first walk ---";
+		result = "";
+		walkMore(lexer);
+		lexer.reset();
+		println("--- second walk ---");
+		println(walkEvenMore(lexer));
 		return result;
 	}
 
@@ -57,7 +73,7 @@ public class App
 			CommonTreeNodeStream nodes = new CommonTreeNodeStream(parser.a().getTree());
 			nodes.setTokenStream(tokens);
 			TTree walker = new TTree(nodes);
-			walker.a();  // TODO: what's this for?
+			walker.a();  // TODO: what's this for?  -> OK now I know ... it executes the tree grammar and should print "Found Keyser Soze!!"
 		} catch (RecognitionException e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
