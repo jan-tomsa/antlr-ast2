@@ -6,6 +6,7 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenRewriteStream;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.Tree;
 import org.antlr.runtime.tree.TreeAdaptor;
 
 import com.ness.plsql.parser.PLSQLLexer;
@@ -29,7 +30,7 @@ public class PLSQLParseRunner {
 
 	String execute() {
 		PLSQLLexer lexer = new PLSQLLexer(new ANTLRStringStream(source));
-		PLSQLParser grammar = new PLSQLParser(new TokenRewriteStream(lexer));
+		PLSQLParser parser = new PLSQLParser(new TokenRewriteStream(lexer));
 		// The AST Magic
 		TreeAdaptor adaptor = new CommonTreeAdaptor() {
 			public Object create(Token payload) {
@@ -38,10 +39,10 @@ public class PLSQLParseRunner {
 		};
 		// Hooking Things Together
 		try {
-			grammar.setTreeAdaptor(adaptor);
-			//PLSQLParser.sql_script_return psrReturn = grammar.sql_script();
-			PLSQLParser.swallow_to_semi_return psrReturn = grammar.swallow_to_semi();
-			CommonTree tree = (CommonTree)psrReturn.getTree();
+			parser.setTreeAdaptor(adaptor);
+			//PLSQLParser.sql_script_return psrReturn = parser.sql_script();
+			PLSQLParser.swallow_to_semi_return psrReturn = parser.swallow_to_semi();
+			Tree tree = (CommonTree)psrReturn.getTree();
 			printTree(tree, 0);
 		} catch (RecognitionException e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -49,7 +50,7 @@ public class PLSQLParseRunner {
 		return result;
 	}
 
-	private void printTree(CommonTree tree, int indent) {
+	private void printTree(Tree tree, int indent) {
 		if (tree != null) {
 			StringBuilder sb = new StringBuilder(indent);
 			if (tree.getParent() == null) {
