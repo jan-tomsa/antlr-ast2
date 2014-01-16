@@ -1,12 +1,13 @@
 package com.ness.astdemo.main;
 
+import static com.ness.antlrdemo.parser.TParser.a_return;
+
 import org.antlr.runtime.*;
-import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.CommonTreeAdaptor;
-import org.antlr.runtime.tree.TreeAdaptor;
+import org.antlr.runtime.tree.*;
 
 import com.ness.antlrdemo.parser.TLexer;
 import com.ness.antlrdemo.parser.TParser;
+import com.ness.antlrdemo.parser.TTree;
 
 /**
  * Hello world!
@@ -33,8 +34,34 @@ public class App
 		TLexer lexer = new TLexer(new ANTLRStringStream(src));
 		TParser parser = new TParser(new CommonTokenStream(lexer));
 
+//		result = "--- first walk ---";
 		result = "";
-		return walkMore(lexer);
+		walkMore(lexer);
+//		lexer.reset();
+//		println("--- second walk ---");
+//		println(walkEvenMore(lexer));
+		return result;
+	}
+
+	private String walkEvenMore(TLexer lexer) {
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		TParser parser = new TParser(tokens);
+		// The AST Magic
+		TreeAdaptor adaptor = new CommonTreeAdaptor() {
+			public Object create(Token payload) {
+				return new MyAST(payload);
+			}
+		};
+		try {
+			parser.setTreeAdaptor(adaptor);
+			CommonTreeNodeStream nodes = new CommonTreeNodeStream(parser.a().getTree());
+			nodes.setTokenStream(tokens);
+			TTree walker = new TTree(nodes);
+			walker.a();  // TODO: what's this for?
+		} catch (RecognitionException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
+		return null;  //To change body of created methods use File | Settings | File Templates.
 	}
 
 	private String walkMore(TLexer lexer) {
@@ -49,7 +76,7 @@ public class App
 		// Hooking Things Together
 		try {
 			grammar.setTreeAdaptor(adaptor);
-			TParser.a_return psrReturn = grammar.a();
+			a_return psrReturn = grammar.a();
 			CommonTree tree = (CommonTree)psrReturn.getTree();
 			printTree(tree, 0);
 		} catch (RecognitionException e) {
