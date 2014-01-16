@@ -5,12 +5,12 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PLSQLRunnerTest {
-	private PLSQLRunner runner;
+public class PLSQLParseRunnerTest {
+	private PLSQLParseRunner runner;
 
 	@Before
 	public void setUp() throws Exception {
-		runner = new PLSQLRunner("begin\ndbms_output.put_line('a');\nend;");
+		runner = new PLSQLParseRunner("begin\ndbms_output.put_line('a');\nend;");
 	}
 
 	@Test

@@ -11,19 +11,19 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import com.ness.plsql.parser.PLSQLLexer;
 import com.ness.plsql.parser.PLSQLParser;
 
-public class PLSQLRunner {
+public class PLSQLParseRunner {
 
 	private String source;
 	private String result;
 
-	public PLSQLRunner(String isource) {
+	public PLSQLParseRunner(String isource) {
 		source = isource;
 	}
 
 	public static void main( String[] args )
 	{
 		String sourceCode = "";
-		PLSQLRunner runner = new PLSQLRunner(sourceCode);
+		PLSQLParseRunner runner = new PLSQLParseRunner(sourceCode);
 		System.out.println(runner.execute());
 	}
 
