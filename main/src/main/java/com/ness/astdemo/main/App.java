@@ -73,7 +73,7 @@ public class App
 			CommonTreeNodeStream nodes = new CommonTreeNodeStream(parser.a().getTree());
 			nodes.setTokenStream(tokens);
 			TTree walker = new TTree(nodes);
-			walker.a();  // TODO: what's this for?  -> OK now I know ... it executes the tree grammar and should print "Found Keyser Soze!!"
+			walker.a();  // executes the tree grammar - should print "Found Keyser Soze!!"
 		} catch (RecognitionException e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
