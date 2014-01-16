@@ -5,9 +5,11 @@ import org.antlr.runtime.tree.CommonTree;
 
 public class MyAST extends CommonTree {
 	private final OpType operation;
+	private Token mToken;
 
 	public MyAST(Token token) {
 		super(token);
+		mToken = token;
 		operation = (token != null && "+".equals(token.getText()))
 				? OpType.PLUS
 				: OpType.OTHER;
@@ -36,5 +38,12 @@ public class MyAST extends CommonTree {
 
 	private String plusLeaf() {
 		return token.getText();
+	}
+
+	public String getText() {
+		if (mToken == null)
+			return "";
+		else
+			return mToken.getText();
 	}
 }
