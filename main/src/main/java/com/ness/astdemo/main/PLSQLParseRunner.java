@@ -42,6 +42,7 @@ public class PLSQLParseRunner {
 			parser.setTreeAdaptor(adaptor);
 			//PLSQLParser.sql_script_return psrReturn = parser.sql_script();
 			PLSQLParser.swallow_to_semi_return psrReturn = parser.swallow_to_semi();
+			//PLSQLParser.sql_script_return psrReturn = parser.sql_script();
 			Tree tree = (CommonTree)psrReturn.getTree();
 			printTree(tree, 0);
 		} catch (RecognitionException e) {
