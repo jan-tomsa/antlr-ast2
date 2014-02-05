@@ -36,7 +36,8 @@ public class SourceCodeParserTest {
         assertTrue(command instanceof PlSqlCommandNull);
     }
 
-    @Ignore @Test
+    @Ignore
+    @Test
     public void testEmptyBlockWithDeclaration() {
         PlSqlElementList elements = sourceCodeParser.parseSource("declare x number; begin null; end;");
         assertNotNull(elements);

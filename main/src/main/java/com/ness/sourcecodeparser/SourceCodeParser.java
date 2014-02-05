@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.runtime.*;
+import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.Tree;
 import org.antlr.runtime.tree.TreeAdaptor;
 
 import com.ness.plsql.parser.PLSQLLexer;
@@ -24,13 +26,19 @@ public class SourceCodeParser {
 
 		List<PlSqlToken> plSqlTokens = new ArrayList<>();
 		try {
-			parser.seq_of_statements();
+			PLSQLParser.seq_of_statements_return psrReturn = parser.seq_of_statements();
 			//System.out.println(parser.getTokenStream().toString());
 			plSqlTokens = translateTokens(parser.getTokenStream());
 
 			for (PlSqlToken pst : plSqlTokens) {
 				System.out.println(pst.toString());
 			}
+			//parser.setTreeAdaptor(adaptor);
+			//PLSQLParser.sql_script_return psrReturn = parser.sql_script();
+			//PLSQLParser.swallow_to_semi_return psrReturn = parser.swallow_to_semi();
+			Tree tree = (CommonTree)psrReturn.getTree();
+			System.out.println(tree.toString());
+
 		} catch (RecognitionException e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
@@ -67,6 +75,7 @@ public class SourceCodeParser {
 				case PLSQLLexer.SQL92_RESERVED_END : return new TokenEnd(tokenText);
 				case PLSQLLexer.SQL92_RESERVED_NULL : return new TokenNull(tokenText);
 				case PLSQLLexer.SQL92_RESERVED_DECLARE : return new TokenDeclare(tokenText);
+				case PLSQLLexer.REGULAR_ID : return new TokenIdentifier(tokenText);
 				case PLSQLLexer.SEMICOLON : return new TokenSemicolon();
 				case PLSQLLexer.SEPARATOR : return new TokenSeparator(tokenText);
 				case PLSQLLexer.EOF : return new TokenEof();
