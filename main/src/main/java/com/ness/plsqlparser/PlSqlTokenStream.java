@@ -53,4 +53,8 @@ public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 	public PlSqlToken nextToken() {
 		return iterator().next();
 	}
+
+	public void reset() {
+		currentPos = 0;
+	}
 }

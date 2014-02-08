@@ -1,8 +1,5 @@
 package com.ness.sourcecodeparser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -11,6 +8,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 
 import com.ness.plsql.parser.PLSQLLexer;
 import com.ness.plsql.parser.PLSQLParser;
+import com.ness.plsqlparser.PlSqlTokenStream;
 import com.ness.plsqlparser.model.PlSqlBlock;
 import com.ness.plsqlparser.model.PlSqlCommandNull;
 import com.ness.plsqlparser.model.PlSqlElementList;
@@ -24,7 +22,7 @@ public class SourceCodeParser {
 	    PLSQLLexer lexer = new PLSQLLexer(new ANTLRStringStream(source));
 	    PLSQLParser parser = new PLSQLParser(new TokenRewriteStream(lexer));
 
-		List<PlSqlToken> plSqlTokens = new ArrayList<>();
+		PlSqlTokenStream plSqlTokens = null;
 		try {
 			PLSQLParser.seq_of_statements_return psrReturn = parser.seq_of_statements();
 			//System.out.println(parser.getTokenStream().toString());
@@ -57,8 +55,8 @@ public class SourceCodeParser {
         return ast;
     }
 
-	private List<PlSqlToken> translateTokens(TokenStream tokenStream) {
-		List<PlSqlToken> plSqlTokens = new ArrayList<>();
+	private PlSqlTokenStream translateTokens(TokenStream tokenStream) {
+		PlSqlTokenStream plSqlTokens = new PlSqlTokenStream();
 		for (int i = 0; i <=tokenStream.size()-1; i++) {
 			Token token = tokenStream.get(i);
 			final PlSqlToken plSqlToken = translateToken(token);
@@ -86,9 +84,10 @@ public class SourceCodeParser {
 		}
 	}
 
-	private PlSqlElementList constructAST(List<PlSqlToken> plSqlTokens) {
+	private PlSqlElementList constructAST(PlSqlTokenStream plSqlTokens) {
 		PlSqlElementList lAST = new PlSqlElementList();
 		if (plSqlTokens != null) {
+			plSqlTokens.reset();
 			for (PlSqlToken token : plSqlTokens) {
 				if (token.getType() == TType.BEGIN)
 					lAST.add(new PlSqlBlock() {{

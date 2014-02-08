@@ -1,9 +1,9 @@
-package com.ness.plsqlparser;
+package com.ness.plsqlparser.parser;
+
+import java.util.List;
 
 import com.ness.plsqlparser.model.PlSqlDeclaration;
 import com.ness.plsqlparser.tokens.PlSqlToken;
-
-import java.util.List;
 
 public class PlSqlDeclarationParser extends PlSqlParser {
     public PlSqlDeclarationParser(List<PlSqlToken> tokens) {

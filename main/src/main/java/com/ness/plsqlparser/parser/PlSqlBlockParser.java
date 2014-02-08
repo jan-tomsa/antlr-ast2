@@ -1,12 +1,19 @@
-package com.ness.plsqlparser;
+package com.ness.plsqlparser.parser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ness.plsqlparser.model.PlSqlBlock;
 import com.ness.plsqlparser.model.PlSqlCommand;
 import com.ness.plsqlparser.model.PlSqlDeclaration;
 import com.ness.plsqlparser.model.PlSqlElement;
-import com.ness.plsqlparser.tokens.*;
-
-import java.util.*;
+import com.ness.plsqlparser.parser.PlSqlCommandParser;
+import com.ness.plsqlparser.parser.PlSqlDeclarationParser;
+import com.ness.plsqlparser.parser.PlSqlParser;
+import com.ness.plsqlparser.tokens.PlSqlToken;
+import com.ness.plsqlparser.tokens.TType;
+import com.ness.plsqlparser.tokens.TokenBegin;
+import com.ness.plsqlparser.tokens.TokenDeclare;
 
 public class PlSqlBlockParser extends PlSqlParser {
     private PlSqlBlock block;

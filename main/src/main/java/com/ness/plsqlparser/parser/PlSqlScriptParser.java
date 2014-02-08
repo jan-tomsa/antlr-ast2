@@ -1,13 +1,13 @@
-package com.ness.plsqlparser;
+package com.ness.plsqlparser.parser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ness.plsqlparser.model.PlSqlBlock;
 import com.ness.plsqlparser.model.PlSqlElementList;
 import com.ness.plsqlparser.tokens.PlSqlToken;
 import com.ness.plsqlparser.tokens.TokenBegin;
 import com.ness.plsqlparser.tokens.TokenDeclare;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PlSqlScriptParser {
     protected List<PlSqlToken> tokens;

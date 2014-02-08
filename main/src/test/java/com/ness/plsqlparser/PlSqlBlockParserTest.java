@@ -3,6 +3,7 @@ package com.ness.plsqlparser;
 import com.ness.plsqlparser.model.PlSqlBlock;
 import com.ness.plsqlparser.model.PlSqlCommand;
 import com.ness.plsqlparser.model.PlSqlDeclaration;
+import com.ness.plsqlparser.parser.PlSqlBlockParser;
 import com.ness.plsqlparser.tokens.*;
 import org.junit.Before;
 import org.junit.Test;

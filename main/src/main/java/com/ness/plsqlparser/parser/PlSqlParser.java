@@ -1,4 +1,4 @@
-package com.ness.plsqlparser;
+package com.ness.plsqlparser.parser;
 
 import com.ness.plsqlparser.model.PlSqlElement;
 import com.ness.plsqlparser.tokens.PlSqlToken;

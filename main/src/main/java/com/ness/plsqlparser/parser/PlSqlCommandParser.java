@@ -1,11 +1,12 @@
-package com.ness.plsqlparser;
+package com.ness.plsqlparser.parser;
+
+import java.util.List;
 
 import com.ness.plsqlparser.model.PlSqlCommand;
 import com.ness.plsqlparser.model.PlSqlCommandNull;
-import com.ness.plsqlparser.tokens.TType;
+import com.ness.plsqlparser.parser.PlSqlParser;
 import com.ness.plsqlparser.tokens.PlSqlToken;
-
-import java.util.List;
+import com.ness.plsqlparser.tokens.TType;
 
 public class PlSqlCommandParser extends PlSqlParser {
     public PlSqlCommandParser(List<PlSqlToken> tokens) {
