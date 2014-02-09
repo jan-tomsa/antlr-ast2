@@ -1,12 +1,13 @@
 package com.ness.plsqlparser.parser;
 
+import java.util.List;
+
+import com.ness.plsqlparser.PlSqlTokenStream;
 import com.ness.plsqlparser.model.PlSqlElement;
 import com.ness.plsqlparser.tokens.PlSqlToken;
 
-import java.util.List;
-
 public class PlSqlParser {
-    protected List<PlSqlToken> tokens;
+    protected PlSqlTokenStream tokens;
     protected List<PlSqlToken> remainingTokens;
     protected boolean valid;
     protected boolean parsed;
@@ -15,11 +16,11 @@ public class PlSqlParser {
         return valid;
     }
 
-    public PlSqlParser(List<PlSqlToken> tokens) {
+    public PlSqlParser(PlSqlTokenStream tokens) {
         this.tokens = tokens;
     }
 
-    public PlSqlElement parse() {
+    public PlSqlElement parse() throws PlSqlDeclarationParser.MissingDeclarationException {
         return null;
     }
     public List<PlSqlToken> getRemainingTokens() {

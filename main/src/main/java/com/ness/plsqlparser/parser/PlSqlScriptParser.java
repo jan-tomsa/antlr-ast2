@@ -1,26 +1,23 @@
 package com.ness.plsqlparser.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.ness.plsqlparser.PlSqlTokenStream;
 import com.ness.plsqlparser.model.PlSqlBlock;
 import com.ness.plsqlparser.model.PlSqlElementList;
 import com.ness.plsqlparser.tokens.PlSqlToken;
-import com.ness.plsqlparser.tokens.TokenBegin;
-import com.ness.plsqlparser.tokens.TokenDeclare;
+import com.ness.plsqlparser.tokens.TType;
 
 public class PlSqlScriptParser {
-    protected List<PlSqlToken> tokens;
+    protected PlSqlTokenStream tokens;
     protected boolean parsed;
     protected boolean valid;
 
     public PlSqlScriptParser() {
-        this.tokens = new ArrayList<PlSqlToken>();
+        this.tokens = new PlSqlTokenStream();
         this.parsed = false;
         this.valid = false;
     }
 
-    public PlSqlScriptParser(List<PlSqlToken> tokens) {
+    public PlSqlScriptParser(PlSqlTokenStream tokens) {
         this.tokens = tokens;
         this.parsed = false;
         this.valid = false;
@@ -40,27 +37,20 @@ public class PlSqlScriptParser {
     private PlSqlElementList processTokens() {
         PlSqlElementList result = new PlSqlElementList();
         if (tokens == null || tokens.size()==0) throw new RuntimeException("No tokens. Cannot parse!");
-        List<PlSqlToken> workingTokens = tokens;
-        while (workingTokens != null && !workingTokens.isEmpty()) {
-            workingTokens = processWorkingTokens(result, workingTokens);
-        }
+	    for (PlSqlToken token : tokens) {
+		    if (token.getType() == TType.BEGIN) {
+			    PlSqlBlockParser parser = new PlSqlBlockParser(tokens);
+			    PlSqlBlock block = (PlSqlBlock) parser.parse();
+			    result.add(block);
+			    if (!parser.isValid())
+				    this.valid = false;
+		    }
+	    }
+//        List<PlSqlToken> workingTokens = tokens;
+//        while (workingTokens != null && !workingTokens.isEmpty()) {
+//            workingTokens = processWorkingTokens(result, workingTokens);
+//        }
         return result;
-    }
-
-    private List<PlSqlToken> processWorkingTokens(PlSqlElementList elementList, List<PlSqlToken> workingTokens) {
-        PlSqlToken currentToken = workingTokens.get(0);
-        if (currentToken instanceof TokenBegin
-                || currentToken instanceof TokenDeclare) {
-            PlSqlBlockParser plSqlBlockParser = new PlSqlBlockParser(workingTokens);
-            PlSqlBlock block = (PlSqlBlock) plSqlBlockParser.parse();
-            if (plSqlBlockParser.isValid()) {
-                elementList.add(block);
-            } else {
-                valid = false;
-            }
-            return plSqlBlockParser.remainingTokens();
-        }
-        return null;
     }
 
     public boolean isValid() {

@@ -1,25 +1,25 @@
 package com.ness.plsqlparser;
 
+import static org.junit.Assert.*;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import com.ness.plsqlparser.model.PlSqlBlock;
 import com.ness.plsqlparser.model.PlSqlCommand;
 import com.ness.plsqlparser.model.PlSqlDeclaration;
 import com.ness.plsqlparser.parser.PlSqlBlockParser;
 import com.ness.plsqlparser.tokens.*;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class PlSqlBlockParserTest {
     private PlSqlBlockParser parser;
-    List<PlSqlToken> tokens;
+    PlSqlTokenStream tokens;
 
     @Before
     public void setUp() {
-        tokens = new ArrayList<PlSqlToken>();
+        tokens = new PlSqlTokenStream();
         parser = new PlSqlBlockParser(tokens);
     }
 

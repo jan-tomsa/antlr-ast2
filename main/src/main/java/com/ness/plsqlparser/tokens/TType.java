@@ -6,5 +6,6 @@ public enum TType {
     END,
     NULL,
     SEMICOLON,
-	EOF
+	DECLARE,
+	SEPARATOR, EOF
 }

@@ -9,9 +9,8 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import com.ness.plsql.parser.PLSQLLexer;
 import com.ness.plsql.parser.PLSQLParser;
 import com.ness.plsqlparser.PlSqlTokenStream;
-import com.ness.plsqlparser.model.PlSqlBlock;
-import com.ness.plsqlparser.model.PlSqlCommandNull;
 import com.ness.plsqlparser.model.PlSqlElementList;
+import com.ness.plsqlparser.parser.PlSqlScriptParser;
 import com.ness.plsqlparser.tokens.*;
 
 public class SourceCodeParser {
@@ -85,18 +84,9 @@ public class SourceCodeParser {
 	}
 
 	private PlSqlElementList constructAST(PlSqlTokenStream plSqlTokens) {
-		PlSqlElementList lAST = new PlSqlElementList();
-		if (plSqlTokens != null) {
-			plSqlTokens.reset();
-			for (PlSqlToken token : plSqlTokens) {
-				if (token.getType() == TType.BEGIN)
-					lAST.add(new PlSqlBlock() {{
-						this.addCommand(new PlSqlCommandNull("null"));
-					}}
-					);
-			}
-			//lAST.add();
-		}
+		plSqlTokens.reset();
+		PlSqlScriptParser parser = new PlSqlScriptParser(plSqlTokens);
+		PlSqlElementList lAST = parser.parse();
 		return lAST;
 	}
 
