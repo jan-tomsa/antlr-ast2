@@ -24,6 +24,10 @@ public class PlSqlCommandParser extends PlSqlParser {
                 return null;
             }
         }
+	    if (currentToken.getType() == TType.BEGIN) {
+		    PlSqlCommandParser parser = new PlSqlCommandParser(tokens);
+		    return parser.parse();
+	    }
         return null;
     }
 }

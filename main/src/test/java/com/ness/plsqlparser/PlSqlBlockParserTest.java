@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ness.plsqlparser.model.PlSqlBlock;
@@ -73,7 +72,7 @@ public class PlSqlBlockParserTest {
         assertEquals(1,commands.size());
     }
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void nullBlockEnfolded() {
 		tokens.add(new TokenBegin("BEGIN"));
