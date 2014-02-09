@@ -5,7 +5,6 @@ import static junit.framework.Assert.*;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ness.plsqlparser.model.*;
@@ -36,7 +35,7 @@ public class SourceCodeParserTest {
         assertTrue(command instanceof PlSqlCommandNull);
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void testEmptyBlockWithDeclaration() {
         PlSqlElementList elements = sourceCodeParser.parseSource("declare x number; begin null; end;");
@@ -48,6 +47,10 @@ public class SourceCodeParserTest {
         List<PlSqlDeclaration> declarations = block.getDeclarations();
         assertNotNull(declarations);
         assertEquals(1,declarations.size());
+	    PlSqlDeclaration declaration = declarations.get(0);
+	    assertTrue(declaration instanceof PlSqlVariableDeclaration);
+	    PlSqlVariableDeclaration variableDeclaration = (PlSqlVariableDeclaration) declaration;
+	    assertEquals("x",variableDeclaration.getVariableName());
         List<PlSqlCommand> commands = block.getCommands();
         assertNotNull(commands);
         assertEquals(1,commands.size());

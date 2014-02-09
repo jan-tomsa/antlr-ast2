@@ -37,8 +37,11 @@ public class PlSqlScriptParser {
     private PlSqlElementList processTokens() {
         PlSqlElementList result = new PlSqlElementList();
         if (tokens == null || tokens.size()==0) throw new RuntimeException("No tokens. Cannot parse!");
-	    for (PlSqlToken token : tokens) {
-		    if (token.getType() == TType.BEGIN) {
+	    PlSqlToken token;
+	    while (!tokens.isAtLastToken()) {
+		    token = tokens.nextToken();
+		    System.out.println("PlSqlScriptParser#1 - tokens." + tokens.toString());
+		    if (token.getType() == TType.BEGIN || token.getType() == TType.DECLARE) {
 			    PlSqlBlockParser parser = new PlSqlBlockParser(tokens);
 			    PlSqlBlock block = (PlSqlBlock) parser.parse();
 			    result.add(block);
@@ -46,6 +49,7 @@ public class PlSqlScriptParser {
 				    this.valid = false;
 		    }
 	    }
+	    System.out.println("PlSqlScriptParser#2 - tokens." + tokens.toString());
 //        List<PlSqlToken> workingTokens = tokens;
 //        while (workingTokens != null && !workingTokens.isEmpty()) {
 //            workingTokens = processWorkingTokens(result, workingTokens);

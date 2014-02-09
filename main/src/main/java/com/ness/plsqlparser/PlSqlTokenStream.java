@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.ness.plsqlparser.tokens.PlSqlToken;
+import com.ness.plsqlparser.tokens.TType;
 
 public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 
@@ -75,5 +76,22 @@ public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 
 	public void swallowCurrent() {
 		nextToken();
+	}
+
+	public boolean isAtLastToken() {
+		return currentPos == tokens.size()-1;
+	}
+
+	@Override
+	public String toString() {
+		return "currentPos:" + currentPos + "='" + currentToken().getType().toString() + "'";
+	}
+
+	public void swallowTokenType(TType tokenType) {
+		while (currentToken().getType() == tokenType) swallowCurrent();
+	}
+
+	public void swallowUpToTokenType(TType tokenType) {
+		while (currentToken().getType() != tokenType) swallowCurrent();
 	}
 }

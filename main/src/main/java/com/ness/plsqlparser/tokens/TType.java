@@ -7,5 +7,5 @@ public enum TType {
     NULL,
     SEMICOLON,
 	DECLARE,
-	SEPARATOR, EOF
+	SEPARATOR, IDENTIFIER, EOF
 }

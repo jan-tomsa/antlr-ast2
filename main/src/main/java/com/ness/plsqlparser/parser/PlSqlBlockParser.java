@@ -33,6 +33,7 @@ public class PlSqlBlockParser extends PlSqlParser {
 	    if (tokens.currentToken().getType() == TType.BEGIN)
 		    tokens.swallowCurrent();
 	    while (tokens.currentToken().getType() != TType.END) {
+		    System.out.println("PlSqlBlockParser#block - tokens." + tokens.toString());
 		    if (tokens.currentToken().getType() == TType.SEPARATOR)
 			    tokens.swallowCurrent();
 		    else {
@@ -48,11 +49,21 @@ public class PlSqlBlockParser extends PlSqlParser {
 
 	private void processDeclarations() throws PlSqlDeclarationParser.MissingDeclarationException {
 		if (tokens.currentToken().getType() == TType.DECLARE)
-			tokens.nextToken(); // swallow
+			tokens.swallowCurrent();
 		while (tokens.currentToken().getType() != TType.BEGIN) {
+			System.out.println("PlSqlBlockParser#declarations#1 - tokens." + tokens.toString());
+			swallowSeparators();
+			System.out.println("PlSqlBlockParser#declarations#2 - tokens." + tokens.toString());
 			PlSqlDeclarationParser parser = new PlSqlDeclarationParser(tokens);
 			PlSqlDeclaration declaration = parser.parse();
+			System.out.println("PlSqlBlockParser#declarations#3 - tokens." + tokens.toString());
+			swallowSeparators();
+			System.out.println("PlSqlBlockParser#declarations#4 - tokens." + tokens.toString());
 			block.addDeclaration(declaration);
 		}
+	}
+
+	private void swallowSeparators() {
+		while (tokens.currentToken().getType() == TType.SEPARATOR) tokens.swallowCurrent();
 	}
 }
