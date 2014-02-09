@@ -72,4 +72,8 @@ public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 		else
 			return tokens.get(currentPos);
 	}
+
+	public void swallowCurrent() {
+		nextToken();
+	}
 }

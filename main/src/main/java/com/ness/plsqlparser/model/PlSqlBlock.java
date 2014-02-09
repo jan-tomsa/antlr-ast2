@@ -3,13 +3,14 @@ package com.ness.plsqlparser.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlSqlBlock extends PlSqlElement {
+public class PlSqlBlock extends PlSqlCommand {
     private List<PlSqlDeclaration> declarations;
     private List<PlSqlCommand> commands;
     private PlSqlExceptionBlock exceptionBlock;
 
     public PlSqlBlock() {
-        this.declarations = new ArrayList<PlSqlDeclaration>();
+	    super("");
+	    this.declarations = new ArrayList<PlSqlDeclaration>();
         this.commands = new ArrayList<PlSqlCommand>();
         this.exceptionBlock = new PlSqlExceptionBlock();
     }

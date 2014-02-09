@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ness.plsqlparser.model.PlSqlBlock;
@@ -71,5 +72,23 @@ public class PlSqlBlockParserTest {
         List<PlSqlCommand> commands = block.getCommands();
         assertEquals(1,commands.size());
     }
+
+	@Ignore
+	@Test
+	public void nullBlockEnfolded() {
+		tokens.add(new TokenBegin("BEGIN"));
+		tokens.add(new TokenBegin("BEGIN"));
+		tokens.add(new TokenNull("NULL"));
+		tokens.add(new TokenSemicolon());
+		tokens.add(new TokenEnd("END"));
+		tokens.add(new TokenSemicolon());
+		tokens.add(new TokenEnd("END"));
+		tokens.add(new TokenSemicolon());
+		PlSqlBlock block = (PlSqlBlock) parser.parse();
+		assertTrue(parser.isValid());
+		assertNotNull(block);
+		List<PlSqlCommand> commands = block.getCommands();
+		assertEquals(1, commands.size());
+	}
 
 }

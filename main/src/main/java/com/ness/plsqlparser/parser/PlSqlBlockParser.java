@@ -31,10 +31,10 @@ public class PlSqlBlockParser extends PlSqlParser {
 			    return block;
 		    }
 	    if (tokens.currentToken().getType() == TType.BEGIN)
-		    tokens.nextToken(); // swallow
+		    tokens.swallowCurrent();
 	    while (tokens.currentToken().getType() != TType.END) {
 		    if (tokens.currentToken().getType() == TType.SEPARATOR)
-			    tokens.nextToken(); // swallow
+			    tokens.swallowCurrent();
 		    else {
 				PlSqlCommandParser parser = new PlSqlCommandParser(tokens);
 				PlSqlCommand command = parser.parse();
