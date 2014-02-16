@@ -26,14 +26,8 @@ public class PlSqlTypeDeclarationParser extends PlSqlParser {
 				tokens.swallowTokenType(TType.SEPARATOR);
 			}
 		}
-		// TAKE
-		token = tokens.currentToken();
-		if (token.getType() != TType.TYPE)
-			valid = false;
-		else {
-			tokens.nextToken();
-			tokens.swallowTokenType(TType.SEPARATOR);
-		}
+		// TYPE
+		validateToken(TType.TYPE);
 		// name
 		token = tokens.currentToken();
 		if (token.getType() == TType.IDENTIFIER) {
@@ -41,15 +35,22 @@ public class PlSqlTypeDeclarationParser extends PlSqlParser {
 			token = tokens.nextToken();
 		}
 		// AS
+		validateToken(TType.AS);
+		// (
+		validateToken(TType.LEFT_PAREN);
+		//
+		return result;
+	}
+
+	private void validateToken(TType type) {
+		PlSqlToken token;
 		tokens.swallowTokenType(TType.SEPARATOR);
 		token = tokens.currentToken();
-		if (token.getType() != TType.AS)
+		if (token.getType() != type)
 			valid = false;
 		else {
 			tokens.nextToken();
 			tokens.swallowTokenType(TType.SEPARATOR);
 		}
-
-		return result;
 	}
 }
