@@ -13,7 +13,7 @@ public class PlSqlTypeDeclarationParser extends PlSqlParser {
 	public PlSqlTypeDeclaration parse() throws PlSqlDeclarationParser.MissingDeclarationException {
 		valid = true;
 		PlSqlTypeDeclaration result = new PlSqlTypeDeclaration();
-		//
+		// CREATE [OR REPLACE]
 		tokens.swallowTokenType(TType.SEPARATOR);
 		PlSqlToken token = tokens.currentToken();
 		if (token.getType() == TType.OR) {
@@ -26,7 +26,7 @@ public class PlSqlTypeDeclarationParser extends PlSqlParser {
 				tokens.swallowTokenType(TType.SEPARATOR);
 			}
 		}
-		//
+		// TAKE
 		token = tokens.currentToken();
 		if (token.getType() != TType.TYPE)
 			valid = false;
@@ -34,11 +34,20 @@ public class PlSqlTypeDeclarationParser extends PlSqlParser {
 			tokens.nextToken();
 			tokens.swallowTokenType(TType.SEPARATOR);
 		}
-		//
+		// name
 		token = tokens.currentToken();
 		if (token.getType() == TType.IDENTIFIER) {
 			result.setName(token.getSource());
 			token = tokens.nextToken();
+		}
+		// AS
+		tokens.swallowTokenType(TType.SEPARATOR);
+		token = tokens.currentToken();
+		if (token.getType() != TType.AS)
+			valid = false;
+		else {
+			tokens.nextToken();
+			tokens.swallowTokenType(TType.SEPARATOR);
 		}
 
 		return result;

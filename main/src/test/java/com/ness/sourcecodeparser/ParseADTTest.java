@@ -35,5 +35,6 @@ public class ParseADTTest {
 		assertEquals("CUSTOM_ADT",adt.getName());
 		List<PlSqlTypeAttribute> attributes = adt.getAttributes();
 		assertNotNull(attributes);
+		//assertEquals(2,attributes.size());
 	}
 }

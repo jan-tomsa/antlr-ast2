@@ -94,14 +94,11 @@ public class SourceCodeParser {
 	}
 
 	private PlSqlToken translateRegularId(String tokenText) {
-		if ("replace".equalsIgnoreCase(tokenText)) {
-			return new TokenReplace(tokenText);
-		} else {
-			if ("type".equalsIgnoreCase(tokenText)) {
-				return new TokenType(tokenText);
-			} else {
-				return new TokenIdentifier(tokenText);
-			}
+		switch (tokenText.toLowerCase()) {
+			case "replace": return new TokenReplace(tokenText);
+			case "type": return new TokenType(tokenText);
+			case "object": return new TokenObject(tokenText);
+			default: return new TokenIdentifier(tokenText);
 		}
 	}
 
