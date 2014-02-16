@@ -7,5 +7,6 @@ public class TokenComma extends PlSqlToken {
 
 	public TokenComma(String source) {
 		super(source);
+		type = TType.COMMA;
 	}
 }

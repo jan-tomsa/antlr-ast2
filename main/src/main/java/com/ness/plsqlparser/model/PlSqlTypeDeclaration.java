@@ -31,4 +31,8 @@ public class PlSqlTypeDeclaration extends PlSqlElement {
 	public List<PlSqlTypeAttribute> getAttributes() {
 		return attributes;
 	}
+
+	public void addAttribute(PlSqlTypeAttribute attribute) {
+		attributes.add(attribute);
+	}
 }

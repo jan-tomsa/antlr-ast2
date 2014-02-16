@@ -1,6 +1,7 @@
 package com.ness.plsqlparser.parser;
 
 import com.ness.plsqlparser.PlSqlTokenStream;
+import com.ness.plsqlparser.model.PlSqlTypeAttribute;
 import com.ness.plsqlparser.model.PlSqlTypeDeclaration;
 import com.ness.plsqlparser.tokens.PlSqlToken;
 import com.ness.plsqlparser.tokens.TType;
@@ -36,10 +37,21 @@ public class PlSqlTypeDeclarationParser extends PlSqlParser {
 		}
 		// AS
 		validateToken(TType.AS);
+		// OBJECT
+		validateToken(TType.OBJECT);
 		// (
 		validateToken(TType.LEFT_PAREN);
 		//
+		parseAttributes(result);
 		return result;
+	}
+
+	private void parseAttributes(PlSqlTypeDeclaration result) {
+		PlSqlTypeAttributeParser parser = new PlSqlTypeAttributeParser(tokens);
+		while (tokens.currentToken().getType() != TType.RIGHT_PAREN) {
+			final PlSqlTypeAttribute attribute = parser.parse();
+			result.addAttribute(attribute);
+		}
 	}
 
 	private void validateToken(TType type) {

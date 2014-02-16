@@ -21,7 +21,7 @@ public class ParseADTTest {
 	}
 
 	@Test
-	public void parseADTTest() {
+	public void parseADTTest2Params() {
 		PlSqlElementList elements = sourceCodeParser.parseSource("create or replace type CUSTOM_ADT as object\n" +
 				"(\n" +
 				"ID NUMBER,\n" +
@@ -35,6 +35,23 @@ public class ParseADTTest {
 		assertEquals("CUSTOM_ADT",adt.getName());
 		List<PlSqlTypeAttribute> attributes = adt.getAttributes();
 		assertNotNull(attributes);
-		//assertEquals(2,attributes.size());
+		assertEquals(2,attributes.size());
+	}
+
+	@Test
+	public void parseADTTest1Parameter() {
+		PlSqlElementList elements = sourceCodeParser.parseSource("create or replace type CUSTOM_ADT2 as object\n" +
+				"(\n" +
+				"ID NUMBER\n" +
+				") not final;\n" +
+				"/\n");
+		assertNotNull(elements);
+		assertEquals(1, elements.size());
+		assertTrue(elements.getElement(0) instanceof PlSqlTypeDeclaration);
+		PlSqlTypeDeclaration adt = (PlSqlTypeDeclaration) elements.getElement(0);
+		assertEquals("CUSTOM_ADT2",adt.getName());
+		List<PlSqlTypeAttribute> attributes = adt.getAttributes();
+		assertNotNull(attributes);
+		assertEquals(1,attributes.size());
 	}
 }

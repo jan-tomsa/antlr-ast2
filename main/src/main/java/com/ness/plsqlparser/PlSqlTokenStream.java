@@ -1,6 +1,7 @@
 package com.ness.plsqlparser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -93,5 +94,15 @@ public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 
 	public void swallowUpToTokenType(TType tokenType) {
 		while (currentToken().getType() != tokenType) swallowCurrent();
+	}
+
+	public void swallowTokenTypes(TType... tokenTypes){
+		while (tokenTypeInArray(currentToken().getType(),tokenTypes))
+			swallowCurrent();
+	}
+
+	private boolean tokenTypeInArray(TType tokenType, TType[] tokenTypes) {
+		final List<TType> typeList = Arrays.asList(tokenTypes);
+		return typeList.contains(tokenType);
 	}
 }
