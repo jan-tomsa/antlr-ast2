@@ -1,8 +1,16 @@
 package com.ness.plsqlparser.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlSqlTypeDeclaration extends PlSqlElement {
 	String name;
 	private boolean replacing;
+	private List<PlSqlTypeAttribute> attributes;
+
+	public PlSqlTypeDeclaration() {
+		attributes = new ArrayList<>();
+	}
 
 	public String getName() {
 		return name;
@@ -18,5 +26,9 @@ public class PlSqlTypeDeclaration extends PlSqlElement {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<PlSqlTypeAttribute> getAttributes() {
+		return attributes;
 	}
 }

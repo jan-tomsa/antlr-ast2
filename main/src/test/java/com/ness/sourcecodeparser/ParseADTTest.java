@@ -1,13 +1,14 @@
 package com.ness.sourcecodeparser;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.ness.plsqlparser.model.PlSqlElementList;
+import com.ness.plsqlparser.model.PlSqlTypeAttribute;
 import com.ness.plsqlparser.model.PlSqlTypeDeclaration;
 
 public class ParseADTTest {
@@ -32,5 +33,7 @@ public class ParseADTTest {
 		assertTrue(elements.getElement(0) instanceof PlSqlTypeDeclaration);
 		PlSqlTypeDeclaration adt = (PlSqlTypeDeclaration) elements.getElement(0);
 		assertEquals("CUSTOM_ADT",adt.getName());
+		List<PlSqlTypeAttribute> attributes = adt.getAttributes();
+		assertNotNull(attributes);
 	}
 }
