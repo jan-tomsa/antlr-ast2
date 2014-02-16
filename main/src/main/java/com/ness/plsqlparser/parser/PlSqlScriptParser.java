@@ -3,6 +3,7 @@ package com.ness.plsqlparser.parser;
 import com.ness.plsqlparser.PlSqlTokenStream;
 import com.ness.plsqlparser.model.PlSqlBlock;
 import com.ness.plsqlparser.model.PlSqlElementList;
+import com.ness.plsqlparser.model.PlSqlTypeDeclaration;
 import com.ness.plsqlparser.tokens.PlSqlToken;
 import com.ness.plsqlparser.tokens.TType;
 
@@ -47,6 +48,15 @@ public class PlSqlScriptParser {
 			    result.add(block);
 			    if (!parser.isValid())
 				    this.valid = false;
+		    }
+		    if (token.getType() == TType.CREATE) {
+			    try {
+				    PlSqlTypeParser parser = new PlSqlTypeParser(tokens);
+				    PlSqlTypeDeclaration adt = parser.parse();
+				    result.add(adt);
+			    } catch (PlSqlDeclarationParser.MissingDeclarationException e) {
+				    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			    }
 		    }
 	    }
 	    System.out.println("PlSqlScriptParser#2 - tokens." + tokens.toString());

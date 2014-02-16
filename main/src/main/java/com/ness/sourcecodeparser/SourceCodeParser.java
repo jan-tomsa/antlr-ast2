@@ -24,6 +24,7 @@ public class SourceCodeParser {
 		PlSqlTokenStream plSqlTokens = null;
 		try {
 			PLSQLParser.seq_of_statements_return psrReturn = parser.seq_of_statements();
+			//PLSQLParser.create_type_return psrReturn = parser.create_type();
 			//System.out.println(parser.getTokenStream().toString());
 			plSqlTokens = translateTokens(parser.getTokenStream());
 
@@ -72,14 +73,35 @@ public class SourceCodeParser {
 				case PLSQLLexer.SQL92_RESERVED_END : return new TokenEnd(tokenText);
 				case PLSQLLexer.SQL92_RESERVED_NULL : return new TokenNull(tokenText);
 				case PLSQLLexer.SQL92_RESERVED_DECLARE : return new TokenDeclare(tokenText);
-				case PLSQLLexer.REGULAR_ID : return new TokenIdentifier(tokenText);
+				case PLSQLLexer.SQL92_RESERVED_CREATE : return new TokenCreate(tokenText);
+				case PLSQLLexer.SQL92_RESERVED_OR : return new TokenOr(tokenText);
+				case PLSQLLexer.SQL92_RESERVED_AS : return new TokenAs(tokenText);
+				case PLSQLLexer.SQL92_RESERVED_NOT : return new TokenNot(tokenText);
+				case PLSQLLexer.REGULAR_ID : return translateRegularId(tokenText);
 				case PLSQLLexer.SEMICOLON : return new TokenSemicolon();
 				case PLSQLLexer.SEPARATOR : return new TokenSeparator(tokenText);
+				case PLSQLLexer.LEFT_PAREN : return new TokenLeftParen();
+				case PLSQLLexer.RIGHT_PAREN : return new TokenRightParen();
 				case PLSQLLexer.EOF : return new TokenEof();
+				case PLSQLLexer.COMMA : return new TokenComma();
+				case PLSQLLexer.UNSIGNED_INTEGER : return new TokenUnsignedInteger(tokenText);
+				case PLSQLLexer.SOLIDUS : return new TokenSolidus();
 			}
 			return new PlSqlToken(tokenText);
 		} else {
 			return null;
+		}
+	}
+
+	private PlSqlToken translateRegularId(String tokenText) {
+		if ("replace".equalsIgnoreCase(tokenText)) {
+			return new TokenReplace(tokenText);
+		} else {
+			if ("type".equalsIgnoreCase(tokenText)) {
+				return new TokenType(tokenText);
+			} else {
+				return new TokenIdentifier(tokenText);
+			}
 		}
 	}
 
