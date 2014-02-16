@@ -21,15 +21,16 @@ public class ParseADTTest {
 
 	@Test
 	public void parseADTTest() {
-		PlSqlElementList adt = sourceCodeParser.parseSource("create or replace type CUSTOM_ADT as object\n" +
+		PlSqlElementList elements = sourceCodeParser.parseSource("create or replace type CUSTOM_ADT as object\n" +
 				"(\n" +
 				"ID NUMBER,\n" +
 				"NAME VARCHAR2(255)\n" +
 				") not final;\n" +
 				"/\n");
-		assertNotNull(adt);
-		assertEquals(1,adt.size());
-		assertTrue(adt.getElement(0) instanceof PlSqlTypeDeclaration);
-		PlSqlTypeDeclaration x = (PlSqlTypeDeclaration) adt.getElement(0);
+		assertNotNull(elements);
+		assertEquals(1, elements.size());
+		assertTrue(elements.getElement(0) instanceof PlSqlTypeDeclaration);
+		PlSqlTypeDeclaration adt = (PlSqlTypeDeclaration) elements.getElement(0);
+		assertEquals("CUSTOM_ADT",adt.getName());
 	}
 }

@@ -51,7 +51,7 @@ public class PlSqlScriptParser {
 		    }
 		    if (token.getType() == TType.CREATE) {
 			    try {
-				    PlSqlTypeParser parser = new PlSqlTypeParser(tokens);
+				    PlSqlTypeDeclarationParser parser = new PlSqlTypeDeclarationParser(tokens);
 				    PlSqlTypeDeclaration adt = parser.parse();
 				    result.add(adt);
 			    } catch (PlSqlDeclarationParser.MissingDeclarationException e) {
