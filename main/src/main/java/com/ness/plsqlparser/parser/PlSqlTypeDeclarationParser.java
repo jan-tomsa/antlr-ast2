@@ -51,6 +51,7 @@ public class PlSqlTypeDeclarationParser extends PlSqlParser {
 		while (tokens.currentToken().getType() != TType.RIGHT_PAREN) {
 			final PlSqlTypeAttribute attribute = parser.parse();
 			result.addAttribute(attribute);
+			tokens.swallowTokenTypes(TType.COMMA, TType.SEPARATOR);
 		}
 	}
 
