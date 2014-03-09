@@ -3,7 +3,7 @@ package com.ness.plsqlparser.model.datatype;
 import com.ness.plsqlparser.model.PlSqlDatatype;
 
 public class PlSqlDatatypeVarchar2 extends PlSqlDatatype {
-	private int size = 255;
+	private int size = 0;
 
 	public int getSize() {
 		return size;
