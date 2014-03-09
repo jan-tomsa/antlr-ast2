@@ -5,8 +5,10 @@ import com.ness.plsqlparser.model.PlSqlDatatype;
 import com.ness.plsqlparser.model.PlSqlTypeAttribute;
 import com.ness.plsqlparser.model.datatype.PlSqlDatatypeNumber;
 import com.ness.plsqlparser.model.datatype.PlSqlDatatypeVarchar2;
+import com.ness.plsqlparser.tokens.PlSqlToken;
 import com.ness.plsqlparser.tokens.TType;
 import com.ness.plsqlparser.tokens.TokenIdentifier;
+import com.ness.plsqlparser.tokens.TokenUnsignedInteger;
 
 public class PlSqlTypeAttributeParser extends PlSqlParser {
 	public PlSqlTypeAttributeParser(PlSqlTokenStream tokens) {
@@ -35,10 +37,26 @@ public class PlSqlTypeAttributeParser extends PlSqlParser {
 		switch (datatypeName) {
 			case "NUMBER" : tokens.swallowTokenType(TType.SEPARATOR);
 							return new PlSqlDatatypeNumber();
-			case "VARCHAR2" : tokens.swallowTokenTypes(TType.LEFT_PAREN, TType.RIGHT_PAREN,TType.UNSIGNED_INTEGER);
-							return new PlSqlDatatypeVarchar2();
+			case "VARCHAR2" : return parseVarchar2();
 			default : return new PlSqlDatatype();
 		}
 		//}
+	}
+
+	private PlSqlDatatype parseVarchar2() {
+		tokens.swallowTokenTypes(TType.LEFT_PAREN, TType.SEPARATOR);
+		final PlSqlToken token = tokens.currentToken();
+		int size = 0;
+		switch (token.getType()) {
+			case UNSIGNED_INTEGER :
+				size = ((TokenUnsignedInteger)token).intValue();
+				tokens.swallowCurrent();
+				tokens.swallowTokenType(TType.SEPARATOR);
+				tokens.swallowTokenType(TType.RIGHT_PAREN);
+		}
+		//tokens.swallowTokenTypes(TType.RIGHT_PAREN, TType.SEPARATOR);
+		final PlSqlDatatypeVarchar2 datatypeVarchar2 = new PlSqlDatatypeVarchar2();
+		datatypeVarchar2.setSize(size);
+		return datatypeVarchar2;
 	}
 }

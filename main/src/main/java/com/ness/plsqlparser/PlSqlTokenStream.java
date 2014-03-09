@@ -65,7 +65,11 @@ public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 	}
 
 	public PlSqlToken currentToken() {
-		return tokens.get(currentPos);
+		try {
+			return tokens.get(currentPos);
+		} catch (IndexOutOfBoundsException e) {
+			throw new RuntimeException("Reading behind EOF (pos: " + (currentPos+1) + "/" + tokens.size() + ")");
+		}
 	}
 
 	public PlSqlToken previousToken() {
@@ -89,7 +93,7 @@ public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 	}
 
 	public void swallowTokenType(TType tokenType) {
-		while (currentToken().getType() == tokenType) swallowCurrent();
+		while (!isAtEOF() && (currentToken().getType() == tokenType)) swallowCurrent();
 	}
 
 	public void swallowUpToTokenType(TType tokenType) {
@@ -97,8 +101,12 @@ public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 	}
 
 	public void swallowTokenTypes(TType... tokenTypes){
-		while (tokenTypeInArray(currentToken().getType(),tokenTypes))
+		while (!isAtEOF() && tokenTypeInArray(currentToken().getType(),tokenTypes))
 			swallowCurrent();
+	}
+
+	private boolean isAtEOF() {
+		return currentPos > tokens.size()-1;
 	}
 
 	private boolean tokenTypeInArray(TType tokenType, TType[] tokenTypes) {

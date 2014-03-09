@@ -5,4 +5,8 @@ public class TokenUnsignedInteger extends PlSqlToken {
 		super(source);
 		type = TType.UNSIGNED_INTEGER;
 	}
+
+	public int intValue() {
+		return Integer.parseInt(getSource());
+	}
 }
