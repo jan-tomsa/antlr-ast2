@@ -4,11 +4,19 @@
   <groupId>com.ness</groupId>
   <artifactId>antlr-ast2</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+        </dependency>
+    </dependencies>
+    <packaging>pom</packaging>
   <name>antlr-ast2</name>
   <modules>
-    <module>main</module>
-    <module>antlr-parser</module>
+      <module>antlr-parser</module>
+      <module>plsql-parser</module>
+      <module>source-transformer</module>
   </modules>
     <build>
         <plugins>
@@ -23,4 +31,5 @@
             </plugin>
     </plugins>
     </build>
+
 </project>
