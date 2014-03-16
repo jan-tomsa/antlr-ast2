@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.ness.plsqlparser.model.PlSqlElementList;
 import com.ness.plsqlparser.model.PlSqlTypeDeclaration;
 import com.ness.sourcecodeparser.SourceCodeParser;
+import com.ness.sourcetransformer.java.PlSql2Java;
 
 public class SourceCodeTransformerTest {
 
@@ -36,7 +37,6 @@ public class SourceCodeTransformerTest {
 		assertEquals(expectedOutput,output);
 	}
 
-	@Ignore
 	@Test
 	public void testTransformADT2ToJava() throws Exception {
 		String sourceCode = "create or replace type CUSTOM_ADT2 as object\n" +
@@ -62,14 +62,14 @@ public class SourceCodeTransformerTest {
 			PlSqlElementList elements = sourceCodeParser.parseSource(sourceCode);
 			PlSqlTypeDeclaration el1 = (PlSqlTypeDeclaration) elements.getElement(0);
 			assertNotNull(elements);
-			String className = generateClassName();
+			String className = generateClassName(el1.getName());
 			return generateClassJavaDoc(el1) +
 					"public class " + className + " {\n" +
 					"}\n";
 		}
 
-		private String generateClassName() {
-			return "CustomAdt";
+		private String generateClassName(String adtName) {
+			return PlSql2Java.transformIdentifier(adtName);
 		}
 
 		private String generateClassJavaDoc(PlSqlTypeDeclaration el1) {
