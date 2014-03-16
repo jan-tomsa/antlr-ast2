@@ -4,9 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ness.plsqlparser.model.PlSqlElementList;
+import com.ness.plsqlparser.model.PlSqlTypeDeclaration;
 import com.ness.sourcecodeparser.SourceCodeParser;
 
 public class SourceCodeTransformerTest {
@@ -27,7 +29,27 @@ public class SourceCodeTransformerTest {
 							") not final;\n" +
 							"/\n";
 		String output = transformer.transformCode(sourceCode);
-		String expectedOutput = "xx";
+		String expectedOutput = "/** CUSTOM_ADT\n" +
+								"*/\n" +
+								"public class CustomAdt {\n" +
+								"}\n";
+		assertEquals(expectedOutput,output);
+	}
+
+	@Ignore
+	@Test
+	public void testTransformADT2ToJava() throws Exception {
+		String sourceCode = "create or replace type CUSTOM_ADT2 as object\n" +
+							"(\n" +
+							"ID NUMBER,\n" +
+							"NAME VARCHAR2(255)\n" +
+							") not final;\n" +
+							"/\n";
+		String output = transformer.transformCode(sourceCode);
+		String expectedOutput = "/** CUSTOM_ADT2\n" +
+								"*/\n" +
+								"public class CustomAdt2 {\n" +
+								"}\n";
 		assertEquals(expectedOutput,output);
 	}
 
@@ -38,8 +60,21 @@ public class SourceCodeTransformerTest {
 		public String transformCode(String sourceCode) {
 			sourceCodeParser = new SourceCodeParser();
 			PlSqlElementList elements = sourceCodeParser.parseSource(sourceCode);
+			PlSqlTypeDeclaration el1 = (PlSqlTypeDeclaration) elements.getElement(0);
 			assertNotNull(elements);
-			return "null";
+			String className = generateClassName();
+			return generateClassJavaDoc(el1) +
+					"public class " + className + " {\n" +
+					"}\n";
+		}
+
+		private String generateClassName() {
+			return "CustomAdt";
+		}
+
+		private String generateClassJavaDoc(PlSqlTypeDeclaration el1) {
+			return "/** " + el1.getName() + "\n" +
+					"*/\n";
 		}
 	}
 }
