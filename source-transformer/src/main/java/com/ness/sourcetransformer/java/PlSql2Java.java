@@ -42,6 +42,11 @@ public class PlSql2Java {
 		return "get" + capitalizeFirstChar(fieldName);
 	}
 
+	public static String attrNameToSetterName(String plsqlIdentifier) {
+		final String fieldName = attrNameToFieldName(plsqlIdentifier);
+		return "set" + capitalizeFirstChar(fieldName);
+	}
+
 	private static String capitalizeFirstChar(String input) {
 		return input.substring(0, 1).toUpperCase() + input.substring(1);
 	}

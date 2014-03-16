@@ -45,8 +45,16 @@ public class SourceCodeTransformerTest {
 								"\t\treturn id;\n" +
 								"\t}\n" +
 								"\n" +
+								"\tpublic void setId(BigDecimal id) {\n" +
+								"\t\tthis.id = id;\n" +
+								"\t}\n" +
+								"\n" +
 								"\tpublic String getName() {\n" +
 								"\t\treturn name;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic void setName(String name) {\n" +
+								"\t\tthis.name = name;\n" +
 								"\t}\n" +
 								"\n" +
 								"}\n";
@@ -72,8 +80,16 @@ public class SourceCodeTransformerTest {
 								"\t\treturn kod;\n" +
 								"\t}\n" +
 								"\n" +
+								"\tpublic void setKod(BigDecimal kod) {\n" +
+								"\t\tthis.kod = kod;\n" +
+								"\t}\n" +
+								"\n" +
 								"\tpublic String getNazev() {\n" +
 								"\t\treturn nazev;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic void setNazev(String nazev) {\n" +
+								"\t\tthis.nazev = nazev;\n" +
 								"\t}\n" +
 								"\n" +
 								"}\n";
@@ -112,8 +128,17 @@ public class SourceCodeTransformerTest {
 		}
 
 		private String generateAccessorPair(PlSqlTypeAttribute attr) {
-			String result = generateGetter(attr) + "\n";
+			String result = generateGetter(attr) + "\n"
+					+ generateSetter(attr) + "\n";
 			return result;
+		}
+
+		private String generateSetter(PlSqlTypeAttribute attr) {
+			final String attrName = PlSql2Java.attrNameToFieldName(attr.getName());
+			final String setterName = PlSql2Java.attrNameToSetterName(attr.getName());
+			return "\tpublic void " + setterName + "(" + generateDatatype(attr.getDatatype()) + " " + attrName + ") {\n" +
+					"\t\tthis." + attrName + " = " + attrName + ";\n" +
+					"\t}\n";
 		}
 
 		private String generateGetter(PlSqlTypeAttribute attr) {
