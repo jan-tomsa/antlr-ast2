@@ -40,6 +40,15 @@ public class SourceCodeTransformerTest {
 								"public class CustomAdt {\n" +
 								"\tprotected BigDecimal id;\n" +
 								"\tprotected String name;\n" +
+								"\n" +
+								"\tpublic BigDecimal getId() {\n" +
+								"\t\treturn id;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic String getName() {\n" +
+								"\t\treturn name;\n" +
+								"\t}\n" +
+								"\n" +
 								"}\n";
 		assertEquals(expectedOutput,output);
 	}
@@ -58,10 +67,23 @@ public class SourceCodeTransformerTest {
 								"public class CustomAdt2 {\n" +
 								"\tprotected BigDecimal kod;\n" +
 								"\tprotected String nazev;\n" +
+								"\n" +
+								"\tpublic BigDecimal getKod() {\n" +
+								"\t\treturn kod;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic String getNazev() {\n" +
+								"\t\treturn nazev;\n" +
+								"\t}\n" +
+								"\n" +
 								"}\n";
 		assertEquals(expectedOutput,output);
 	}
 
+
+	/**
+	 * Generator of Java class source code from PL/SQL ADT (custom type)
+	 */
 	private class JavaSourceCodeTransformer implements SourceCodeTransformer {
 		private SourceCodeParser sourceCodeParser;
 
@@ -75,7 +97,31 @@ public class SourceCodeTransformerTest {
 			return generateClassJavaDoc(el1) +
 					"public class " + className + " {\n" +
 					generateAttributes(el1) +
+					"\n" +
+					generateAccessors(el1) +
 					"}\n";
+		}
+
+		private String generateAccessors(PlSqlTypeDeclaration adt) {
+			StringBuilder result = new StringBuilder();
+			List<PlSqlTypeAttribute> attributes = adt.getAttributes();
+			for (PlSqlTypeAttribute attr : attributes) {
+				result.append(generateAccessorPair(attr));
+			}
+			return result.toString();
+		}
+
+		private String generateAccessorPair(PlSqlTypeAttribute attr) {
+			String result = generateGetter(attr) + "\n";
+			return result;
+		}
+
+		private String generateGetter(PlSqlTypeAttribute attr) {
+			final String attrName = PlSql2Java.attrNameToFieldName(attr.getName());
+			final String getterName = PlSql2Java.attrNameToGetterName(attr.getName());
+			return  "\tpublic " + generateDatatype(attr.getDatatype()) + " " + getterName + "() {\n" +
+					"\t\treturn " + attrName + ";\n" +
+					"\t}\n";
 		}
 
 		private String generateAttributes(PlSqlTypeDeclaration adt) {
@@ -92,7 +138,7 @@ public class SourceCodeTransformerTest {
 			PlSqlDatatype dt = attr.getDatatype();
 			sb.append(generateDatatype(dt));
 			sb.append(" ");
-			sb.append(PlSql2Java.transformFieldName(attr.getName()));
+			sb.append(PlSql2Java.attrNameToFieldName(attr.getName()));
 			sb.append(";\n");
 			return sb.toString();
 		}

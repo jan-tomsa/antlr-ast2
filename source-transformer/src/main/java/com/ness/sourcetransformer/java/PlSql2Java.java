@@ -14,7 +14,7 @@ public class PlSql2Java {
 		return transformUnderscoresToCamelcase(plsqlIdentifier, true);
 	}
 
-	public static String transformFieldName(String plsqlIdentifier) {
+	public static String attrNameToFieldName(String plsqlIdentifier) {
 		return transformUnderscoresToCamelcase(plsqlIdentifier, false);
 	}
 
@@ -35,5 +35,14 @@ public class PlSql2Java {
 			}
 		}
 		return builder.toString();
+	}
+
+	public static String attrNameToGetterName(String plsqlIdentifier) {
+		final String fieldName = attrNameToFieldName(plsqlIdentifier);
+		return "get" + capitalizeFirstChar(fieldName);
+	}
+
+	private static String capitalizeFirstChar(String input) {
+		return input.substring(0, 1).toUpperCase() + input.substring(1);
 	}
 }
