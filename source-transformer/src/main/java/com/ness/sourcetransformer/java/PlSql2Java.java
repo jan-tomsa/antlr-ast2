@@ -10,12 +10,19 @@ public class PlSql2Java {
 	 * @param plsqlIdentifier PL/SQL identifier to transform
 	 * @return  Java identifier corresponding to plsqlIdentifier
 	 */
-	public static String transformIdentifier(String plsqlIdentifier) {
+	public static String transformClassName(String plsqlIdentifier) {
+		return transformUnderscoresToCamelcase(plsqlIdentifier, true);
+	}
+
+	public static String transformFieldName(String plsqlIdentifier) {
+		return transformUnderscoresToCamelcase(plsqlIdentifier, false);
+	}
+
+	private static String transformUnderscoresToCamelcase(String plsqlIdentifier, boolean capitalizeFirst) {
 		StringBuilder builder = new StringBuilder();
 		char[] uppercasedIdentifier = plsqlIdentifier.toUpperCase().toCharArray();
-		boolean lastCharWasAnUnderscore = true;
-		for (int i = 0; i < uppercasedIdentifier.length; i++) {
-			char c = uppercasedIdentifier[i];
+		boolean lastCharWasAnUnderscore = capitalizeFirst;
+		for (char c : uppercasedIdentifier) {
 			if (c == '_') {
 				lastCharWasAnUnderscore = true;
 			} else {
