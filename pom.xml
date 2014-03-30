@@ -17,6 +17,7 @@
       <module>antlr-parser</module>
       <module>plsql-parser</module>
       <module>source-transformer</module>
+      <module>source-transformer-java</module>
   </modules>
     <build>
         <plugins>

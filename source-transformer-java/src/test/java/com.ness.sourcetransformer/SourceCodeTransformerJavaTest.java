@@ -17,7 +17,7 @@ import com.ness.plsqlparser.model.datatype.PlSqlDatatypeVarchar2;
 import com.ness.sourcecodeparser.SourceCodeParser;
 import com.ness.sourcetransformer.java.PlSql2Java;
 
-public class SourceCodeTransformerTest {
+public class SourceCodeTransformerJavaTest {
 
 	private SourceCodeTransformer transformer;
 
