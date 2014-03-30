@@ -18,6 +18,7 @@
       <module>plsql-parser</module>
       <module>source-transformer</module>
       <module>source-transformer-java</module>
+      <module>batch-plsql2java-transformer</module>
   </modules>
     <build>
         <plugins>
