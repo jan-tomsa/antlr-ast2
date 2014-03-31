@@ -432,7 +432,7 @@ SQL92_RESERVED_ANY
     ;
 
 SQL92_RESERVED_AS
-    :    'as'
+    :    ('a'|'A') ('s'|'S')
     ;
 
 SQL92_RESERVED_ASC
@@ -492,7 +492,7 @@ PLSQL_RESERVED_CRASH
     ;
 
 SQL92_RESERVED_CREATE
-    :    'create'
+    :    ('c' | 'C') ('r' | 'R') ('e' | 'E') ('a' | 'A') ('t' | 'T') ('e' | 'E')
     ;
 
 SQL92_RESERVED_CURRENT
@@ -713,7 +713,7 @@ SQL92_RESERVED_OPTION
     ;
 
 SQL92_RESERVED_OR
-    :    'or'
+    :    ('o'|'O') ('r'|'R')
     ;
 
 SQL92_RESERVED_ORDER

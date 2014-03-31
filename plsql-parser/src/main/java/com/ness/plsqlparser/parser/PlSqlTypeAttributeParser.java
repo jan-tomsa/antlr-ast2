@@ -34,7 +34,7 @@ public class PlSqlTypeAttributeParser extends PlSqlParser {
 		//while (tokens.currentToken().getType() != TType.COMMA && tokens.currentToken().getType() != TType.RIGHT_PAREN) {
 		String datatypeName = tokens.currentToken().getSource();
 		tokens.nextToken();
-		switch (datatypeName) {
+		switch (datatypeName.toUpperCase()) {
 			case "NUMBER" : tokens.swallowTokenType(TType.SEPARATOR);
 							return new PlSqlDatatypeNumber();
 			case "VARCHAR2" : return parseVarchar2();

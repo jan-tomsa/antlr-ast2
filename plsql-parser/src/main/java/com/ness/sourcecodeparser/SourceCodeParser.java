@@ -23,7 +23,8 @@ public class SourceCodeParser {
 
 		PlSqlTokenStream plSqlTokens = null;
 		try {
-			PLSQLParser.seq_of_statements_return psrReturn = parser.seq_of_statements();
+			//PLSQLParser.seq_of_statements_return psrReturn = parser.seq_of_statements();
+			PLSQLParser.compilation_unit_return psrReturn = parser.compilation_unit();
 			//PLSQLParser.create_type_return psrReturn = parser.create_type();
 			//System.out.println(parser.getTokenStream().toString());
 			plSqlTokens = translateTokens(parser.getTokenStream());

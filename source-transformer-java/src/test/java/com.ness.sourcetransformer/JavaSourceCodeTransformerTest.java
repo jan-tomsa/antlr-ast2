@@ -86,5 +86,74 @@ public class JavaSourceCodeTransformerTest {
 		assertEquals(expectedOutput,output);
 	}
 
-
+	@Test
+	public void testTransformRealLifeADTToJava_1() {
+		String sourceCode = "CREATE OR REPLACE TYPE SOME_REAL_LIFE_ADT_1_XXX AS OBJECT\n" +
+							"(id varchar2(30), \n" +
+							" name varchar2(255), \n" +
+							" short_name varchar2(50), \n" +
+							" description varchar2(255), \n" +
+							" some_other_attr varchar2(30),\n" +
+							" \n" +
+							"\n" +
+							"\n" +
+							"--constructor without param\n" +
+							"CONSTRUCTOR FUNCTION SOME_REAL_LIFE_ADT_1_XXX(SELF IN OUT SOME_REAL_LIFE_ADT_1_XXX) RETURN SELF AS RESULT\n" +
+							"PARALLEL_ENABLE\n" +
+							"\n" +
+							")  NOT FINAL;\n" +
+							"/\n";
+		String output = transformer.transformCode(sourceCode);
+		String expectedOutput = "/** SOME_REAL_LIFE_ADT_1_XXX\n" +
+								"*/\n" +
+								"public class SomeRealLifeAdt1Xxx {\n" +
+								"\tprotected String id;\n" +
+								"\tprotected String name;\n" +
+								"\tprotected String shortName;\n" +
+								"\tprotected String description;\n" +
+								"\tprotected String someOtherAttr;\n" +
+								"\n" +
+								"\tpublic String getId() {\n" +
+								"\t\treturn id;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic void setId(String id) {\n" +
+								"\t\tthis.id = id;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic String getName() {\n" +
+								"\t\treturn name;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic void setName(String name) {\n" +
+								"\t\tthis.name = name;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic String getShortName() {\n" +
+								"\t\treturn shortName;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic void setShortName(String shortName) {\n" +
+								"\t\tthis.shortName = shortName;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic String getDescription() {\n" +
+								"\t\treturn description;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic void setDescription(String description) {\n" +
+								"\t\tthis.description = description;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic String getSomeOtherAttr() {\n" +
+								"\t\treturn someOtherAttr;\n" +
+								"\t}\n" +
+								"\n" +
+								"\tpublic void setSomeOtherAttr(String someOtherAttr) {\n" +
+								"\t\tthis.someOtherAttr = someOtherAttr;\n" +
+								"\t}\n" +
+								"\n" +
+								"}\n";
+		assertEquals(expectedOutput,output);
+	}
 }
