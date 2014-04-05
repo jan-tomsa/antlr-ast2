@@ -1,4 +1,4 @@
-package com.ness.sourcetransformer;
+package com.ness.sourcetransformer.java;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.ness.sourcetransformer.java.JavaSourceCodeTransformer;
+import com.ness.sourcetransformer.SourceCodeTransformer;
 
 public class JavaSourceCodeTransformerTest {
 
