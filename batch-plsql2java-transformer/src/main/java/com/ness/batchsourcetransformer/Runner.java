@@ -13,7 +13,7 @@ public class Runner {
 
 	public static void main(String[] args) {
 		Runner runner = new Runner();
-		runner.run("d:\\work\\RUIAN\\SVN_17\\trunk\\ISUI-Oracle-full\\trunk\\application\\schema\\ui_apl\\type\\statistiky");
+		runner.run(args[0]);
 	}
 
 	private void run(String path) {

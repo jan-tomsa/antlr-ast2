@@ -15,7 +15,6 @@
             <groupId>com.ness</groupId>
             <artifactId>source-transformer-java</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>both</scope>
         </dependency>
     </dependencies>
 </project>

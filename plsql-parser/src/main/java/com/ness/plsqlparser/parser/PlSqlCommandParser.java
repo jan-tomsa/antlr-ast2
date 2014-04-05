@@ -13,6 +13,10 @@ public class PlSqlCommandParser extends PlSqlParser {
 
     @Override
     public PlSqlCommand parse() {
+	    if (tokens.isAtLastToken()) {
+		    valid = false;
+		    return null;
+	    }
         PlSqlToken currentToken = tokens.nextToken();
         if (currentToken.getType() == TType.NULL) {
             PlSqlToken followingToken = tokens.nextToken();

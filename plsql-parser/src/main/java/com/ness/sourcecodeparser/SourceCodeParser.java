@@ -1,6 +1,10 @@
 package com.ness.sourcecodeparser;
 
-import org.antlr.runtime.*;
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenRewriteStream;
+import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.Tree;
@@ -11,7 +15,27 @@ import com.ness.plsql.parser.PLSQLParser;
 import com.ness.plsqlparser.PlSqlTokenStream;
 import com.ness.plsqlparser.model.PlSqlElementList;
 import com.ness.plsqlparser.parser.PlSqlScriptParser;
-import com.ness.plsqlparser.tokens.*;
+import com.ness.plsqlparser.tokens.PlSqlToken;
+import com.ness.plsqlparser.tokens.TokenAs;
+import com.ness.plsqlparser.tokens.TokenBegin;
+import com.ness.plsqlparser.tokens.TokenComma;
+import com.ness.plsqlparser.tokens.TokenCreate;
+import com.ness.plsqlparser.tokens.TokenDeclare;
+import com.ness.plsqlparser.tokens.TokenEnd;
+import com.ness.plsqlparser.tokens.TokenEof;
+import com.ness.plsqlparser.tokens.TokenIdentifier;
+import com.ness.plsqlparser.tokens.TokenLeftParen;
+import com.ness.plsqlparser.tokens.TokenNot;
+import com.ness.plsqlparser.tokens.TokenNull;
+import com.ness.plsqlparser.tokens.TokenObject;
+import com.ness.plsqlparser.tokens.TokenOr;
+import com.ness.plsqlparser.tokens.TokenReplace;
+import com.ness.plsqlparser.tokens.TokenRightParen;
+import com.ness.plsqlparser.tokens.TokenSemicolon;
+import com.ness.plsqlparser.tokens.TokenSeparator;
+import com.ness.plsqlparser.tokens.TokenSolidus;
+import com.ness.plsqlparser.tokens.TokenType;
+import com.ness.plsqlparser.tokens.TokenUnsignedInteger;
 
 public class SourceCodeParser {
 
@@ -23,8 +47,10 @@ public class SourceCodeParser {
 
 		PlSqlTokenStream plSqlTokens = null;
 		try {
-			//PLSQLParser.seq_of_statements_return psrReturn = parser.seq_of_statements();
-			PLSQLParser.compilation_unit_return psrReturn = parser.compilation_unit();
+			PLSQLParser.seq_of_statements_return psrReturn = parser.seq_of_statements();
+			TreeAdaptor adaptor = new PlSqlTreeParserAdaptor();
+			//parser.setTreeAdaptor(adaptor);  //TODO: prepared for variant with tree adaptor
+			//PLSQLParser.compilation_unit_return psrReturn = parser.compilation_unit();
 			//PLSQLParser.create_type_return psrReturn = parser.create_type();
 			//System.out.println(parser.getTokenStream().toString());
 			plSqlTokens = translateTokens(parser.getTokenStream());
@@ -113,6 +139,7 @@ public class SourceCodeParser {
 	private class PlSqlTreeParserAdaptor extends CommonTreeAdaptor implements TreeAdaptor {
 		@Override
 		public Object create(Token payload) {
+			//return super.create(payload);
 			if (payload != null) {
 				switch (payload.getType()) {
 					case PLSQLLexer.SQL92_RESERVED_BEGIN : return new TokenBegin(payload.getText());
@@ -121,8 +148,18 @@ public class SourceCodeParser {
 				}
 				return new PlSqlToken(payload.getText());
 			} else {
-				return null;
+				return new PlSqlToken("nil");
 			}
+		}
+
+		@Override
+		public void addChild(Object tree, Object child) {
+			//super.addChild(tree, child);
+			((PlSqlToken)tree).addChild((PlSqlToken) child);
+			if (tree != null)
+				System.out.println("tree: " + tree.toString());
+			if (child != null)
+				System.out.println("child: " + child.toString());
 		}
 	}
 }

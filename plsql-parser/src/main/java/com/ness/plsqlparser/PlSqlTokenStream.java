@@ -84,12 +84,16 @@ public class PlSqlTokenStream implements Iterable<PlSqlToken> {
 	}
 
 	public boolean isAtLastToken() {
-		return currentPos == tokens.size()-1;
+		return currentPos >= tokens.size()-1;
 	}
 
 	@Override
 	public String toString() {
-		return "currentPos:" + currentPos + "='" + currentToken().getType().toString() + "'";
+		if (isAtLastToken()) {
+			return "currentPos:" + currentPos;
+		} else {
+			return "currentPos:" + currentPos + "='" + currentToken().getType().toString() + "'";
+		}
 	}
 
 	public void swallowTokenType(TType tokenType) {

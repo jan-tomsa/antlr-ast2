@@ -3,6 +3,7 @@ package com.ness.sourcetransformer;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ness.sourcetransformer.java.JavaSourceCodeTransformer;
@@ -86,6 +87,7 @@ public class JavaSourceCodeTransformerTest {
 		assertEquals(expectedOutput,output);
 	}
 
+	@Ignore
 	@Test
 	public void testTransformRealLifeADTToJava_1() {
 		String sourceCode = "CREATE OR REPLACE TYPE SOME_REAL_LIFE_ADT_1_XXX AS OBJECT\n" +

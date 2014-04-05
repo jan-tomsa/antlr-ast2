@@ -32,7 +32,7 @@ public class PlSqlBlockParser extends PlSqlParser {
 		    }
 	    if (tokens.currentToken().getType() == TType.BEGIN)
 		    tokens.swallowCurrent();
-	    while (tokens.currentToken().getType() != TType.END) {
+	    while (tokens.currentToken().getType() != TType.END && !tokens.isAtLastToken()) {
 		    System.out.println("PlSqlBlockParser#block - tokens." + tokens.toString());
 		    if (tokens.currentToken().getType() == TType.SEPARATOR)
 			    tokens.swallowCurrent();
@@ -42,6 +42,10 @@ public class PlSqlBlockParser extends PlSqlParser {
 				block.addCommand(command);
 		    }
 		}
+	    if (tokens.currentToken().getType() == TType.END) {
+		    tokens.swallowCurrent();
+		    tokens.swallowTokenTypes(TType.SEPARATOR, TType.SEMICOLON);
+	    }
 	    valid = !block.getCommands().isEmpty();
         parsed = true;
         return block;
